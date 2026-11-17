@@ -1,0 +1,3291 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Open-source software for the FlashForge AD5X. Klipper (Kalico), Fluidd, Moonraker and the IFS multi-colour feeder running through AFC.">
+      
+      
+      
+        <link rel="canonical" href="https://openad5x.github.io/ifs/STOCK_SPEC_HOST/">
+      
+      
+      
+        <link rel="prev" href="../afc-integration/">
+      
+      
+        <link rel="next" href="../STOCK_SPEC_IFS/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.svg">
+      <meta name="generator" content="zensical-0.1.0">
+    
+    
+      
+        <title>Stock host flows - OpenAD5X</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.4ab2de0c.min.css">
+      
+        
+          
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/modern/palette.b60ce83d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,500,500i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    <meta property="og:type" content="website">
+  <meta property="og:site_name" content="OpenAD5X">
+  <meta property="og:title" content="Stock host flows - OpenAD5X">
+  <meta property="og:description" content="Open-source software for the FlashForge AD5X. Klipper (Kalico), Fluidd, Moonraker and the IFS multi-colour feeder running through AFC.">
+  <meta property="og:url" content="https://openad5x.github.io/ifs/STOCK_SPEC_HOST/">
+  <meta property="og:image" content="https://openad5x.github.io/assets/images/social.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="OpenAD5X: open-source software for the FlashForge AD5X">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stock host flows - OpenAD5X">
+  <meta name="twitter:description" content="Open-source software for the FlashForge AD5X. Klipper (Kalico), Fluidd, Moonraker and the IFS multi-colour feeder running through AFC.">
+  <meta name="twitter:image" content="https://openad5x.github.io/assets/images/social.png?v=2">
+  <meta name="theme-color" content="#1a2130">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-hidden="true"></label>
+    <div data-md-component="skip">
+      <a href="#__skip" class="md-skip">
+        Skip to content
+      </a>
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OpenAD5X" class="md-header__button md-logo" aria-label="OpenAD5X" data-md-component="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 18 127 79" role="img" aria-label="OpenAD5X">
+  <circle cx="36" cy="57.5" r="27.5" fill="none" stroke="#ff5722" stroke-width="12"></circle>
+  <path fill="currentColor" fill-rule="evenodd" d="M41.04 91.00 L81.04 24.00 L121.04 91.00 L107.06 91.00 L99.30 78.00 L62.78 78.00 L55.02 91.00 Z M81.04 47.41 L92.14 66.00 L69.94 66.00 Z"></path>
+</svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      <span class="md-visually-hidden">Navigation</span>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenAD5X
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Stock host flows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <span class="md-visually-hidden">Search</span>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Search">
+  <button type="button" class="md-search__button">
+    Search
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/FlashForge-C5-Modding-Group/openad5x" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FlashForge-C5-Modding-Group/openad5x
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OpenAD5X" class="md-nav__button md-logo" aria-label="OpenAD5X" data-md-component="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 18 127 79" role="img" aria-label="OpenAD5X">
+  <circle cx="36" cy="57.5" r="27.5" fill="none" stroke="#ff5722" stroke-width="12"></circle>
+  <path fill="currentColor" fill-rule="evenodd" d="M41.04 91.00 L81.04 24.00 L121.04 91.00 L107.06 91.00 L99.30 78.00 L62.78 78.00 L55.02 91.00 Z M81.04 47.41 L92.14 66.00 L69.94 66.00 Z"></path>
+</svg>
+    </a>
+    OpenAD5X
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/FlashForge-C5-Modding-Group/openad5x" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    FlashForge-C5-Modding-Group/openad5x
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Home
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Getting Started
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Getting Started
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../is-it-for-you/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Is OpenAD5X for you?
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Getting started
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation-and-safety/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Installation
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../slicer-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Slicer Configuration
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  OpenAD5X
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  OpenAD5X
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../openad5x/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  OpenAD5X
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Features
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../different/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  What makes us different
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../toggle-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  How to toggle features
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Technical Reference
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Technical Reference
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Installer internals
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../architecture/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Architecture
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_2">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Architecture
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/startup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Startup
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/printer-layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Files on the printer
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Network
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/touchscreen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Touchscreen
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/camera/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Camera
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/power/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Power key
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/entware-python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Entware and Python
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/packages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Packages and builds
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/opencreator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Differences from OpenCreator
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../mcu/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  MCU development
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_3">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  MCU development
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcu/boards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Boards, pins and power
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcu/clock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Clock
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcu/flashing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Flashing and test builds
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcu/kalico-build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Kalico build and kiln-os
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcu/host/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Host side
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcu/open-items/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Open items
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  IFS
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+            <label class="md-nav__title" for="__nav_4_4">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  IFS
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Hardware
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stock-firmware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock IFS firmware
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kalico-firmware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Kalico firmware
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../afc-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  IFS in AFC
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock host flows
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock host flows
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-klipper-side-that-triggers-a-toolchange-stock-virtual_sdcardpy-software-316" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. Klipper side that triggers a toolchange (stock <code>virtual_sdcard.py</code>, software-3.1.6)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-per-filament-type-tables-type-string-from-ffminfo-for-the-channel-getchnfilamenttype-default-pla-if-empty" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. Per-filament-type tables (type string from <code>FFMInfo</code> for the channel, <code>getChnFilamentType</code>; default "PLA" if empty)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-primitives-exact-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Primitives (exact sequences)
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Primitives (exact sequences)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-printcleargoposxpx-ypy-005ed008-park-at-purge-chute" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.1 <code>printClearGoPos(x=px, y=py)</code> 005ed008 (park at purge chute)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-fourinonecutchn-x-y-005f5860-cutter" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.2 <code>fourInOneCut(chn, x, y)</code> 005f5860 (cutter)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-checkcrotchcuttingchn-005f4f8c-selectclamp-lane" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.3 <code>checkCrotchCutting(chn)</code> 005f4f8c (select/clamp lane)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-checkcrotchf39chn-005f8da0-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.4 <code>checkCrotchF39(chn)</code> 005f8da0 (release)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-cutfilamentchn-x-y-005f5e58" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.5 <code>cutFilament(chn, x, y)</code> 005f5e58
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-checkrefullingfristchn-005f2478-checkrefullingchn-005f1d84-wait-for-old-filament-to-leave-the-toolhead" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.6 <code>checkRefullingFrist(chn)</code> 005f2478 / <code>checkRefulling(chn)</code> 005f1d84 (wait for old filament to leave the toolhead)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-fourinoneunloadchn-flag-005f616c-lane-retract-until-toolhead-clear" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.7 <code>fourInOneUnLoad(chn, flag)</code> 005f616c (lane retract until toolhead clear)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-checkfeedingchn-005f9674-wait-for-toolhead-sensor-after-a-long-feed" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.8 <code>checkFeeding(chn)</code> 005f9674 (wait for toolhead sensor after a long feed)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-checkloadchn-s-005fbaa0-flush-time-feed-wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.9 <code>checkLoad(chn, S)</code> 005fbaa0 (flush-time feed wait)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-flush-pieces" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.10 Flush pieces
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-flush-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Flush volume
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-flows-in-call-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. Flows in call order
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Flows in call order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-first-load-auto-insert-idle-spool-inserted" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.1 First load / auto-insert (idle, spool inserted)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-load-at-print-start-serialprint-006042e4-normal-start-ifs-present-multicolour" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.2 Load at print start (<code>serialPrint</code> 006042e4, normal start, IFS present, multicolour)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-toolchange-during-print-changechannelmode0-newchn-px-py-005fe970" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.3 Toolchange during print (<code>changeChannel(mode=0, newChn, px, py)</code> 005fe970)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-doloadandunloadnewchn-oldchn-x-y-flag-005fda70" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.4 <code>doLoadAndUnload(newChn, oldChn, x, y, flag)</code> 005fda70
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-runout-lane-empty-while-printing-serialprint-main-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.5 Runout (lane empty while printing, <code>serialPrint</code> main loop)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-pause-resume-cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.6 Pause / resume / cancel
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-end-of-print-also-after-cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.7 End of print (also after cancel)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-power-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.8 Power loss
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-error-codes-ui-dialog-ecode-httpswikiflashforgecomenad5xerror_code_list_ad5x" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Error codes (UI dialog <code>E&lt;code&gt;</code>, <code>https://wiki.flashforge.com/en/ad5x/error_code_list_ad5x#...</code>)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spool-colour-material-data-the-host-keeps-only-what-drives-the-above" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. Spool / colour / material data the host keeps (only what drives the above)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-not-found-uncertain" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. Not found / uncertain
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STOCK_SPEC_IFS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock IFS firmware spec
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STOCK_LOAD_WIZARD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock load wizard
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STOCK_FEED_ACCEL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock feed acceleration
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STOCK_MOTOR_DRIVE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock motor drive
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STOCK_ADC_TIMING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock sensor timing
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STOCK_STALL_LED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock stall and LEDs
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STOCK_HOST_RELEASE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Stock release behaviour
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IFS_MOTOR_SPEC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Motor specification
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Research
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_4_5">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Research
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/host/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Host (Kalico on the AD5X)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/loadcell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Bed load cell
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/loadcell-kalico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Load cell in Kalico
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research/firmwareexe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  firmwareExe
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Project
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        
+          <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+            <label class="md-nav__title" for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+              
+  
+  Project
+
+            </label>
+            <ul class="md-nav__list" data-md-scrollfix>
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Project layout
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../status-and-roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Status and roadmap
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Contributing
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+                
+                  
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../attributions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Attributions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+                
+              
+            </ul>
+          </nav>
+        
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-klipper-side-that-triggers-a-toolchange-stock-virtual_sdcardpy-software-316" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        1. Klipper side that triggers a toolchange (stock <code>virtual_sdcard.py</code>, software-3.1.6)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-per-filament-type-tables-type-string-from-ffminfo-for-the-channel-getchnfilamenttype-default-pla-if-empty" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        2. Per-filament-type tables (type string from <code>FFMInfo</code> for the channel, <code>getChnFilamentType</code>; default "PLA" if empty)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-primitives-exact-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3. Primitives (exact sequences)
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Primitives (exact sequences)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-printcleargoposxpx-ypy-005ed008-park-at-purge-chute" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.1 <code>printClearGoPos(x=px, y=py)</code> 005ed008 (park at purge chute)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-fourinonecutchn-x-y-005f5860-cutter" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.2 <code>fourInOneCut(chn, x, y)</code> 005f5860 (cutter)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-checkcrotchcuttingchn-005f4f8c-selectclamp-lane" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.3 <code>checkCrotchCutting(chn)</code> 005f4f8c (select/clamp lane)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-checkcrotchf39chn-005f8da0-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.4 <code>checkCrotchF39(chn)</code> 005f8da0 (release)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-cutfilamentchn-x-y-005f5e58" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.5 <code>cutFilament(chn, x, y)</code> 005f5e58
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-checkrefullingfristchn-005f2478-checkrefullingchn-005f1d84-wait-for-old-filament-to-leave-the-toolhead" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.6 <code>checkRefullingFrist(chn)</code> 005f2478 / <code>checkRefulling(chn)</code> 005f1d84 (wait for old filament to leave the toolhead)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-fourinoneunloadchn-flag-005f616c-lane-retract-until-toolhead-clear" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.7 <code>fourInOneUnLoad(chn, flag)</code> 005f616c (lane retract until toolhead clear)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#38-checkfeedingchn-005f9674-wait-for-toolhead-sensor-after-a-long-feed" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.8 <code>checkFeeding(chn)</code> 005f9674 (wait for toolhead sensor after a long feed)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#39-checkloadchn-s-005fbaa0-flush-time-feed-wait" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.9 <code>checkLoad(chn, S)</code> 005fbaa0 (flush-time feed wait)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#310-flush-pieces" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        3.10 Flush pieces
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-flush-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        4. Flush volume
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-flows-in-call-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5. Flows in call order
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Flows in call order">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-first-load-auto-insert-idle-spool-inserted" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.1 First load / auto-insert (idle, spool inserted)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-load-at-print-start-serialprint-006042e4-normal-start-ifs-present-multicolour" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.2 Load at print start (<code>serialPrint</code> 006042e4, normal start, IFS present, multicolour)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-toolchange-during-print-changechannelmode0-newchn-px-py-005fe970" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.3 Toolchange during print (<code>changeChannel(mode=0, newChn, px, py)</code> 005fe970)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-doloadandunloadnewchn-oldchn-x-y-flag-005fda70" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.4 <code>doLoadAndUnload(newChn, oldChn, x, y, flag)</code> 005fda70
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-runout-lane-empty-while-printing-serialprint-main-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.5 Runout (lane empty while printing, <code>serialPrint</code> main loop)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-pause-resume-cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.6 Pause / resume / cancel
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-end-of-print-also-after-cancel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.7 End of print (also after cancel)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-power-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        5.8 Power loss
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-error-codes-ui-dialog-ecode-httpswikiflashforgecomenad5xerror_code_list_ad5x" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        6. Error codes (UI dialog <code>E&lt;code&gt;</code>, <code>https://wiki.flashforge.com/en/ad5x/error_code_list_ad5x#...</code>)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spool-colour-material-data-the-host-keeps-only-what-drives-the-above" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        7. Spool / colour / material data the host keeps (only what drives the above)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-not-found-uncertain" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        8. Not found / uncertain
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                <a id="__skip" tabindex="-1"></a>
+                
+                  
+
+  
+    <a href="https://github.com/FlashForge-C5-Modding-Group/openad5x/edit/main/docs/ifs/STOCK_SPEC_HOST.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-file-pen" viewBox="0 0 24 24"><path d="M12.659 22H18a2 2 0 0 0 2-2V8a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 14 2H6a2 2 0 0 0-2 2v9.34"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10.378 12.622a1 1 0 0 1 3 3.003L8.36 20.637a2 2 0 0 1-.854.506l-2.867.837a.5.5 0 0 1-.62-.62l.836-2.869a2 2 0 0 1 .506-.853z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="stock-ad5x-host-firmwareexe-filament-handling-spec-to-match">Stock AD5X host (<code>firmwareExe</code>) filament handling: spec to match<a class="headerlink" href="#stock-ad5x-host-firmwareexe-filament-handling-spec-to-match" title="Permanent link">&para;</a></h1>
+<p>Source: static analysis (Ghidra 12.2). Binary: <code>firmwareExe</code> from software 3.1.6, md5 <code>53002874d76d1b381e45d4b533884408</code> (md5 read from the Ghidra program itself), MIPS32, not stripped. Addresses are function entry points (<code>SerialObject::</code> unless stated). The F112 analysis is in <code>STOCK_HOST_RELEASE.md</code> and is not repeated; <a href="../../research/firmwareexe/">firmwareExe: filament change</a> has the printer config values and the AFC mapping.</p>
+<p>Conventions used below
+- "G:" = G-code sent to Klipper through <code>sendGcodeCmd</code> (JSON-RPC <code>gcode/script</code> on the Klipper API socket). The 4th argument 1 means wait for the reply (Klipper replies when the command is queued, not when the move is done, hence the many <code>M400</code>). Only <code>cutFilament</code>'s <code>G1 E-60</code> and the <code>SAVE_GCODE_STATE</code> in the pause path are sent with wait = 0.
+- "IFS:" = text command to the IFS over ttyS4 via <code>sendCmdToUart4</code> (mutex, <code>tcflush</code>, write <code>"&lt;cmd&gt; \r\n"</code>, <code>usleep(100000)</code>, then <code>select</code> with 2 s timeout for the reply; <code>Serial::sendToUart4WaitRecv</code> 005dc760). Only <code>F13</code> and <code>F19</code> are sent when the IFS is flagged absent (<code>this+0x2e2 == 0</code>); everything else returns "" without sending.
+- Reply parse everywhere: split on <code>[: ]</code>, field 3 = state: <strong>5 = move done/idle, 0x7f = error (homing/driver), 0x7e = busy/timeout</strong>. Some functions also read fields 5 and 11 of the same reply (<code>checkPurgeOldFilament</code>). F-code meanings: F10 feed, F11 exit/retract, F12 sensors, F13 status, F15 re-home, F23/F24 channel select, F39 release, F112 stop.
+- <code>Lnnn Snnn</code> on F10/F11: L = length mm, S = speed (same units as G1 F, mm/min).
+- "toolhead sensor" = <code>checkFilamentSenser</code> 005f1af4: sends G <code>GET_FILAMENT_VALUE</code>, parses <code>value:&lt;float&gt;</code>; filament present iff <code>value &lt;= 0.3 || value &gt;= 0.72</code>. (Stock <code>query_adc.py</code>: eboard PA3 ADC, object <code>temperature_sensor filamentValue</code>; the second ADC <code>cutValue</code> PA2 is the cutter sensor, reported as <code>query_adc.cut</code>.)
+- Cancel flag = <code>this+0x2e3</code>; pause flag = <code>this+0x8a</code>; "polling-busy" flag <code>this+0x2f0</code> (set 1 inside feed/load/cut waits so the status thread <code>recvQueryFourInOneSt</code> stays quiet).
+- Config values are in <code>/usr/data/config/Adventurer5M.json</code> (<code>leftExtruderOffset.{xOffset,yOffset,zOffset,CutXOffset,CutYOffset}</code>, <code>Multicolour.*</code>, <code>FFMInfo.channel</code>); getter defaults in the binary: xOffset 0, yOffset 0, CutXOffset 0, CutYOffset 0, <code>channel</code> 1, UnloadESpace 60, UnloadIFSSpace 70, UnloadSpeed 600 (those three are only read by <code>initMulticolourConfig</code> and UI time estimators, not used as command lengths). Values on the test printer: xOffset 0, yOffset 1.5, CutXOffset 1.7, CutYOffset 1.9.
+- Below, <code>px = xOffset</code>, <code>py = yOffset</code> (these are what <code>Config::getLeftExtruderXOffset/YOffset</code> return and what is passed as the x/y arguments of every purge/brush/clear function).</p>
+<hr />
+<h2 id="1-klipper-side-that-triggers-a-toolchange-stock-virtual_sdcardpy-software-316">1. Klipper side that triggers a toolchange (stock <code>virtual_sdcard.py</code>, software-3.1.6)<a class="headerlink" href="#1-klipper-side-that-triggers-a-toolchange-stock-virtual_sdcardpy-software-316" title="Permanent link">&para;</a></h2>
+<p>Not part of the host binary, but it is the trigger.
+- Host sends once at print start: <code>SDCARD_SET_CHANNEL CHANNEL=&lt;first chn&gt;</code> (sets <code>load_channel</code> and <code>print_channel</code>) and <code>SDCARD_ENABLE_FFM ENABLE=1</code> only if (IFS present <code>this+0x2e2</code> &amp;&amp; multicolour job &amp;&amp; <code>this+0x290 &gt;= 2</code>), else <code>ENABLE=0</code>.
+- While printing from the file, a line that is exactly <code>T0..T15</code> and <code>enable_ffm</code> is <strong>consumed, not executed</strong>: <code>print_channel = n</code>; if <code>n != load_channel</code>: run <code>M400</code>, set <code>change_filament = True</code> and poll every 0.5 s until the host sends <code>SDCARD_CLEAR_REFUELLING</code> (or the print is paused/cancelled); then <code>load_channel = print_channel</code>, continue with the next line.
+- Host polls <code>objects/query</code> (list in <code>sendGcodeCmd</code> case 3): <code>virtual_sdcard[is_active, progress, file_position, file_size, channel, refuelling]</code>, <code>pause_resume.is_paused</code>, <code>fan_generic fanM106/chamber_fan/external_fan/internal_fan.speed</code>, <code>print_stats[filename, filament_used, state]</code>, <code>toolhead.homed_axes</code>, <code>gcode_move[gcode_position, absolute_extrude, speed]</code>, <code>webhooks.state</code>, <code>extruder[temperature,target]</code>, <code>heater_bed[temperature,target]</code>, <code>query_adc[value,cut]</code>, <code>exclude_object.clear_mem</code>. <code>doQueryResponse</code> stores <code>refuelling</code> in the <code>m_refulling</code> field (<code>this+0x2e0</code>, the only writer besides init/changeChannel) and <code>channel</code> in <code>m_channel</code>. No temperature command is issued by the T line: the nozzle target for the new filament is whatever the sliced G-code set before <code>Tn</code> (see 5.3).</p>
+<hr />
+<h2 id="2-per-filament-type-tables-type-string-from-ffminfo-for-the-channel-getchnfilamenttype-default-pla-if-empty">2. Per-filament-type tables (type string from <code>FFMInfo</code> for the channel, <code>getChnFilamentType</code>; default "PLA" if empty)<a class="headerlink" href="#2-per-filament-type-tables-type-string-from-ffminfo-for-the-channel-getchnfilamenttype-default-pla-if-empty" title="Permanent link">&para;</a></h2>
+<p>Compared by exact string: <code>PLA</code>, <code>PETG</code>, <code>TPU</code>, <code>SILK</code>, <code>PLA-CF</code>, <code>PETG-CF</code>, <code>PC-ABS</code>. Any other string (including <code>ABS</code>, <code>PLA-CF</code>, <code>PETG-CF</code> where not listed) takes the "other" column.</p>
+<table>
+<thead>
+<tr>
+<th>function (addr)</th>
+<th>PLA</th>
+<th>PETG</th>
+<th>TPU</th>
+<th>SILK</th>
+<th>PLA-CF / PETG-CF / other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getFilamentTypeFristSpeed(chn,false)</code> 005e3c68 = feed F of first flush <code>G1 E90</code></td>
+<td>300</td>
+<td>300</td>
+<td>100</td>
+<td>150</td>
+<td>300</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeFristSpeed(chn,true)</code> = fan S (0-255) during first flush</td>
+<td>0</td>
+<td>51</td>
+<td>51</td>
+<td>51</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeSecondSpeed(chn,false)</code> 005e3f44 = feed F of second flush</td>
+<td>300</td>
+<td>300</td>
+<td>100</td>
+<td>150</td>
+<td>300</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeSecondSpeed(chn,true)</code> = fan S after flush</td>
+<td>125</td>
+<td>102</td>
+<td>102</td>
+<td>102</td>
+<td>125</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeUnloadSpeed</code> 005e4070 (F11 S and <code>G1 E-60 F</code>)</td>
+<td>600</td>
+<td>300</td>
+<td>200</td>
+<td>300</td>
+<td>600</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeUnloadSpace</code> 005e41b0</td>
+<td>60</td>
+<td>60</td>
+<td>60</td>
+<td>60</td>
+<td>60</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeTemp</code> 005e459c (end-of-print purge only)</td>
+<td>220</td>
+<td>250</td>
+<td>230</td>
+<td>230</td>
+<td>220 (PETG-CF 250, PC-ABS 250)</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeTime</code> 005e3db8 (s, <code>checkPurgeOldFilament</code> wait)</td>
+<td>15</td>
+<td>15</td>
+<td>36</td>
+<td>36</td>
+<td>15</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeLoadFristSpace</code> 005e42e4</td>
+<td>80</td>
+<td>70</td>
+<td>80</td>
+<td>80</td>
+<td>80</td>
+</tr>
+<tr>
+<td><code>getFilamentTypeLoadSpace</code> 005e445c</td>
+<td>60</td>
+<td>50</td>
+<td>50</td>
+<td>60</td>
+<td>60 (PETG-CF 40)</td>
+</tr>
+</tbody>
+</table>
+<p>Notes: the string at 0x00adcde8 is <code>PETG</code>, at 0x00adcdf0 is <code>TPU</code>. <code>FristSpeed</code> and <code>SecondSpeed</code> take (chn, bool): bool true returns the fan value, false the feed rate.</p>
+<hr />
+<h2 id="3-primitives-exact-sequences">3. Primitives (exact sequences)<a class="headerlink" href="#3-primitives-exact-sequences" title="Permanent link">&para;</a></h2>
+<h3 id="31-printcleargoposxpx-ypy-005ed008-park-at-purge-chute">3.1 <code>printClearGoPos(x=px, y=py)</code> 005ed008 (park at purge chute)<a class="headerlink" href="#31-printcleargoposxpx-ypy-005ed008-park-at-purge-chute" title="Permanent link">&para;</a></h3>
+<p>G: <code>G1 X&lt;px+52.5&gt; F12000</code>, <code>G1 Y220 F12000</code>, <code>G1 Y&lt;py+229&gt; F3000</code>, <code>M400</code>. Numbers formatted <code>'f'</code>, 2 decimals (<code>QString::number(v,'f',2)</code>). Constants: double 52.5 at 0x00ae04f0, float 229.0 at 0x00ae04f8. With px 0, py 1.5: X52.50 then Y220 then Y230.50. X is moved first at whatever Y the head is at.</p>
+<h3 id="32-fourinonecutchn-x-y-005f5860-cutter">3.2 <code>fourInOneCut(chn, x, y)</code> 005f5860 (cutter)<a class="headerlink" href="#32-fourinonecutchn-x-y-005f5860-cutter" title="Permanent link">&para;</a></h3>
+<p>G, in order: <code>M400</code>, <code>G90</code>, <code>G1 Y10 F18000</code>, <code>G1 Y&lt;CutYOffset-7.5&gt; F1800</code>, <code>G1 X20  F12000</code> (two spaces in the literal), <code>G1 X&lt;CutXOffset-2.5&gt; F600</code>, <code>M400</code>, <code>G92 E0</code>, <code>G1 E-5 F600</code>, <code>M400</code>, then <code>printClearGoPos(x,y)</code>, then IFS <code>checkCrotchCutting(chn)</code> (3.3), then <code>M400</code>. (Constants: doubles 7.5 at 0x00ae04e0 and 2.5 at 0x00ae04e8. With CutY 1.9, CutX 1.7: Y-5.60, X-0.80.) The cutter lever is pushed by the X move at F600; there is no second cut or dwell.</p>
+<h3 id="33-checkcrotchcuttingchn-005f4f8c-selectclamp-lane">3.3 <code>checkCrotchCutting(chn)</code> 005f4f8c (select/clamp lane)<a class="headerlink" href="#33-checkcrotchcuttingchn-005f4f8c-selectclamp-lane" title="Permanent link">&para;</a></h3>
+<p>IFS <code>F24 C&lt;chn&gt;</code>; set busy flag; loop: IFS <code>F13</code>, parse state; exit when state == 5, or after 21 polls (counter &gt; 0x14), or on cancel; on 0x7f: send <code>F15</code>, then <code>F24 C&lt;chn&gt;</code> again, counter reset to 1; state 0x7e: leave the loop. <code>sleep(1)</code> between polls (about 21 s worst case). No error is raised here.</p>
+<h3 id="34-checkcrotchf39chn-005f8da0-release">3.4 <code>checkCrotchF39(chn)</code> 005f8da0 (release)<a class="headerlink" href="#34-checkcrotchf39chn-005f8da0-release" title="Permanent link">&para;</a></h3>
+<p>IFS <code>F39 C&lt;chn&gt;</code>, then the same poll shape as 3.3 (F13, 1 s, up to about 11 polls, 0x7f -&gt; <code>F15</code> and resend <code>F39 C&lt;chn&gt;</code>).</p>
+<h3 id="35-cutfilamentchn-x-y-005f5e58">3.5 <code>cutFilament(chn, x, y)</code> 005f5e58<a class="headerlink" href="#35-cutfilamentchn-x-y-005f5e58" title="Permanent link">&para;</a></h3>
+<p><code>fourInOneCut(chn,x,y)</code>; G <code>G92 E0</code>; IFS <code>F11 C&lt;chn&gt; L60 S&lt;UnloadSpeed(type)&gt;</code> (sent first); G <code>G1 E-60 F&lt;UnloadSpeed&gt;</code> (<code>UnloadSpace</code> = 60, sent without waiting, so the lane retract and the extruder retract overlap). Returns 0. The <code>L60</code> is a literal, not a config value.</p>
+<h3 id="36-checkrefullingfristchn-005f2478-checkrefullingchn-005f1d84-wait-for-old-filament-to-leave-the-toolhead">3.6 <code>checkRefullingFrist(chn)</code> 005f2478 / <code>checkRefulling(chn)</code> 005f1d84 (wait for old filament to leave the toolhead)<a class="headerlink" href="#36-checkrefullingfristchn-005f2478-checkrefullingchn-005f1d84-wait-for-old-filament-to-leave-the-toolhead" title="Permanent link">&para;</a></h3>
+<p>Poll IFS <code>F13</code> every 1 s (<code>sleep(1)</code>); <code>checkRefullingFrist</code>: when the toolhead sensor reads empty, IFS <code>F112</code> (resent if the reply lacks "ok") + <code>M400</code>, return 0. Returns: 1 cancel, 4 if state 5 persists for more than 10 polls while the sensor still reads filament, 8 on state 0x7f, 10 after 11 polls of 0x7e. <code>checkRefulling</code> is the same poll without the F112 and is used for the second pass.</p>
+<h3 id="37-fourinoneunloadchn-flag-005f616c-lane-retract-until-toolhead-clear">3.7 <code>fourInOneUnLoad(chn, flag)</code> 005f616c (lane retract until toolhead clear)<a class="headerlink" href="#37-fourinoneunloadchn-flag-005f616c-lane-retract-until-toolhead-clear" title="Permanent link">&para;</a></h3>
+<p>Polls IFS <code>F13</code> (usleep-based, 200 ms); every time the IFS is idle (state 5) and the toolhead sensor still shows filament it re-clamps (<code>checkCrotchCutting</code>, <code>F24</code>) and sends <code>F11 C&lt;chn&gt; L70 S600</code>; three times with <code>L70</code>, then a last one <code>F11 C&lt;chn&gt; L60 S600</code> (literals " L70 S" x3 and " L60 S", S = 0x258 = 600). On 0x7f: <code>F15</code>, <code>checkCrotchCutting</code>, resend. Ends when the sensor reads empty or on timeout ("Unload timeOut!").</p>
+<h3 id="38-checkfeedingchn-005f9674-wait-for-toolhead-sensor-after-a-long-feed">3.8 <code>checkFeeding(chn)</code> 005f9674 (wait for toolhead sensor after a long feed)<a class="headerlink" href="#38-checkfeedingchn-005f9674-wait-for-toolhead-sensor-after-a-long-feed" title="Permanent link">&para;</a></h3>
+<p>Busy flag set. Loop with <code>usleep(100000)</code> per turn: IFS <code>F13</code>, state:
+- 5 and pause flag (<code>+0x8a</code>): IFS <code>F112</code>, return 7.
+- 5 after the retry phase and not yet re-fed: <code>checkCrotchCutting(chn)</code> then IFS <code>F10 C&lt;chn&gt; L500 S1200</code>, once.
+- 0x7f: return 8 (caller sends <code>F15</code>). 0x7e more than 100 times: return 10 ("IFS home error").
+- toolhead sensor reads filament: IFS <code>F112</code>, return 0.
+- cancel flag: IFS <code>F112</code>, return 1.
+- 301 turns (about 30 s) without sensor: first time send IFS <code>F11 C&lt;chn&gt; L5 S1200</code> (back off 5 mm) and enter retry phase, counter 0; second time (another 30 s): <code>sigIFSError(E0100+chn-1)</code> (see 6), <code>checkCrotchF39(chn)</code>, return 3.
+Returns 0 and 7 are success.</p>
+<h3 id="39-checkloadchn-s-005fbaa0-flush-time-feed-wait">3.9 <code>checkLoad(chn, S)</code> 005fbaa0 (flush-time feed wait)<a class="headerlink" href="#39-checkloadchn-s-005fbaa0-flush-time-feed-wait" title="Permanent link">&para;</a></h3>
+<p>Used by the first flush. Poll IFS <code>F13</code> every 1 s. State 5: if toolhead sensor reads filament send <code>F112</code> and return 0; state 5 with sensor empty: continue counting. 0x7f: <code>F15</code>, <code>checkCrotchCutting(chn)</code>, IFS <code>F10 C&lt;chn&gt; L30 S&lt;S&gt;</code>, sleep 1, return code 8 path (restart loop). 0x7e more than 10: return 10. After 6 polls: once <code>checkCrotchF39(chn)</code>. After 31 polls: first time <code>checkCrotchCutting(chn)</code> + IFS <code>F10 C&lt;chn&gt; L50 S&lt;S&gt;</code> and counters reset; second time <code>sigIFSError(E0100+chn-1)</code>; loop-top retry after <code>timeOutPause()</code> resends <code>F10 C&lt;chn&gt; L600 S&lt;S&gt;</code>. S is the speed given by <code>flushFilamentFrist</code>.</p>
+<h3 id="310-flush-pieces">3.10 Flush pieces<a class="headerlink" href="#310-flush-pieces" title="Permanent link">&para;</a></h3>
+<p><code>flushFilamentFrist(chn)</code> 005fc930 (type = type of channel <code>Config::getChannel</code>, i.e. the channel just set; chn argument is the lane to feed):
+1. G <code>M106 S&lt;FristSpeed(true)&gt;</code>
+2. G <code>G92 E0</code>
+3. G <code>G1 E90 F&lt;FristSpeed(false)&gt;</code>
+4. IFS <code>F10 C&lt;chn&gt; L90 S&lt;FristSpeed(false)&gt;</code> (lane pushes in step with the extruder)
+5. <code>checkLoad(chn, FristSpeed(false))</code> (3.9). If it returns 1 (cancel) stop. Else <code>checkCrotchF39(chn)</code>, G <code>M400</code>, G <code>M106 S&lt;SecondSpeed(true)&gt;</code>.</p>
+<p><code>flushFilamentSecond(chn)</code> 005ee3ec:
+1. G <code>M106 S&lt;FristSpeed(true)&gt;</code>; <code>sleep(1)</code> three times (3 s, aborted by cancel)
+2. G <code>G92 E0</code>; G <code>G1 E90 F&lt;SecondSpeed(false)&gt;</code>; G <code>M400</code>
+3. G <code>M106 S&lt;SecondSpeed(true)&gt;</code></p>
+<p><code>flushFilamentBrush(second, x=px, y=py)</code> 005ee7dc:
+1. <code>sleep(1)</code> x3 (3 s, ooze cool-down, abort on cancel)
+2. if <code>second == true</code>: G <code>G92 E0</code>, <code>G1 E-3 F300</code>, <code>M400</code>, <code>G92 E0</code>
+3. G <code>G1 Y220 F12000</code>, <code>G1 Y&lt;py+229&gt; F3000</code>, <code>G1 Y220 F12000</code>, <code>G1 Y&lt;py+229&gt; F3000</code>, <code>G1 Y220 F12000</code>
+4. if <code>second == false</code>: G <code>G1 X&lt;px+52.5&gt; F12000</code>, <code>G1 Y&lt;py+229&gt; F3000</code>
+5. G <code>M400</code></p>
+<p><code>cleanFilamentBox(newChn, flushVol, x=px, y=py)</code> 005fce9c (one purge pass):
+G <code>G1 X&lt;px+52.5&gt; F12000</code>, <code>G1 Y&lt;py+229&gt; F3000</code>, <code>M400</code>; <code>flushFilamentFrist(newChn)</code>; <code>flushFilamentBrush(false)</code>; <code>flushFilamentSecond(newChn)</code>; <code>flushFilamentBrush(true)</code>; IFS <code>F23 C&lt;newChn&gt;</code>. The <code>flushVol</code> argument is not used inside (see 4). Extruder amount per pass: 90 + 90 = 180 mm; first 90 mm have the lane pushing 90 mm (<code>L90</code>).</p>
+<p><code>clearCurrentChnFilament(chn,x,y)</code> 005eeedc: <code>printClearGoPos</code>, <code>flushFilamentSecond(chn)</code>, <code>flushFilamentBrush(false)</code>.</p>
+<p><code>clearAllFilament(x,y)</code> 005f3e14: up to 8 times: <code>clearCurrentChnFilament</code>; stop when the toolhead sensor reads empty, then G <code>G1 Y220 F12000</code>, <code>M400</code>, return 0; between tries <code>sleep(1)</code>; after 8 tries <code>clearOldFilament</code> and return 1. Cancel/pause returns 1.</p>
+<p><code>clear_brush(y)</code> 005ed4d0 (X brush, used at resume and at leveling, not in toolchange): G <code>G1 Y220 F3000</code>, <code>G1 X78 F12000</code>, <code>G1 Y&lt;y+229&gt; F3000</code>, <code>G1 X65 F12000</code>, <code>G1 X73</code>, <code>G1 X65</code>, <code>G1 X73</code>, <code>G1 X65</code>, <code>G1 X78</code>, <code>G1 Y220</code>, <code>M400</code>. <code>clearBrush(y)</code> 005ed968 is identical without the final <code>G1 Y220</code>.</p>
+<p><code>checkPurgeOldFilament(chnIdx, x, y)</code> 005f454c (print start, filament already at the toolhead): if toolhead sensor reads empty return; else G <code>M106 S&lt;FristSpeed(true)&gt;</code>, <code>G92 E0</code>, <code>G1 E90 F&lt;FristSpeed(false)&gt;</code>; poll IFS <code>F13</code> every 1 s up to <code>getFilamentTypeTime</code> s (fields 5 and 11 of the reply are checked for "idle" for more than that many consecutive polls); G <code>M400</code>, <code>M106 S&lt;SecondSpeed(true)&gt;</code>; <code>flushFilamentBrush(false)</code>; if the lane still reads loaded: up to 8 times <code>clearCurrentChnFilament</code> until the toolhead sensor reads empty (sleep 1); G <code>M400</code>, <code>G92 E0</code>.</p>
+<hr />
+<h2 id="4-flush-volume">4. Flush volume<a class="headerlink" href="#4-flush-volume" title="Permanent link">&para;</a></h2>
+<p><code>getFlushVol(oldChn, newChn)</code> 005f2cd4 = <code>calc_flush_vol(...)</code> 005cc724 on the lane colour strings (<code>FFMInfo</code> colour 1..4, parsed with <code>QColor::setNamedColor</code>). Result is integer, clamped 60..800.</p>
+<p>Algorithm (constants from the data section): colours as r,g,b/255; HSV via <code>RGB2HSV</code>; for old colour (src) and new colour (dst):
+- <code>lum = 0.3*r + 0.59*g + 0.11*b</code>
+- <code>dxy = hypot( cos(h1)*s1*v1 - cos(h2)*s2*v2 , sin(h1)*s1*v1 - sin(h2)*s2*v2 )</code> with h in degrees converted by <code>/180*pi</code>; <code>dhs = min(dxy, 1.2)</code>
+- if <code>lum_dst &gt;= lum_src</code>: <code>lumi = (lum_dst - lum_src)^0.7 * 560</code>
+- else: <code>lumi = (lum_src - lum_dst) * 80</code> and <code>dhs = min(dhs, 0.67*v_dst + 0.33*v_src)</code>
+- <code>hs = dhs * 230</code>
+- <code>vol = sqrt(hs^2 + lumi^2 + hs*lumi)</code> (law of cosines, cos = -0.5); if <code>vol &lt; 60</code> -&gt; 60; else <code>(int)vol</code>, max 800.
+This is the same shape as the OrcaSlicer/BambuStudio flush-volume formula.</p>
+<p>Call-site quirk (as compiled): <code>getFlushVol</code> calls <code>calc_flush_vol(R1,G1,B1,0xff, R2,G2,B2,0xff)</code> but the function reads its first parameter as alpha and parameters 2..4 as R,G,B. Effective inputs: if <code>R1 == 0</code> the src colour is treated as transparent (white); otherwise src colour = (G1, B1, 255)/255. Same for dst with R2. So red is only used as an on/off flag and blue is always 255. Reproduce this only if exact stock numbers are wanted.</p>
+<p>Use of the result (changeChannel 005fe970): only to choose the number of purge passes: <code>passes = 1 + (vol &gt; 400)</code>; each pass is one <code>cleanFilamentBox</code>, followed by <code>M400</code>. The extruder amount per pass is constant 180 mm. No matrix, no per-pass E scaling. <code>Config</code> has no flush multiplier. Colour mapping: <code>getFlushVol(oldChn = Config::getChannel() before the change, newChn)</code>.</p>
+<hr />
+<h2 id="5-flows-in-call-order">5. Flows in call order<a class="headerlink" href="#5-flows-in-call-order" title="Permanent link">&para;</a></h2>
+<h3 id="51-first-load-auto-insert-idle-spool-inserted">5.1 First load / auto-insert (idle, spool inserted)<a class="headerlink" href="#51-first-load-auto-insert-idle-spool-inserted" title="Permanent link">&para;</a></h3>
+<p>Trigger: <code>recvQueryFourInOneSt</code> 005fa660 sees a lane sensor bit rise (mask <code>this+0x298</code>) while not printing -&gt; <code>checkFourInOneLoad(newMask, enabledMask)</code> 005fa288, lanes 1..4:
+1. <code>sigAutoLoad(chn)</code> (UI dialog "auto load")
+2. <code>fourInOneLoadFristStep(chn)</code> 005f839c: toolhead sensor read once at the start and kept (<code>local_44</code>); it never aborts on it (the function returns only 0, 1 or 10). <code>checkCrotchCutting(chn)</code> (F24); IFS <code>F10 C&lt;chn&gt; L650 S1200</code> (0x28a, 0x4b0); poll IFS <code>F13</code> every 100 ms (<code>usleep(100000)</code>), up to 0x78 = 120 polls, stop when the toolhead sensor reads filament only if it read empty at the start; if it already read filament at the start the sensor is ignored and the feed runs to the poll limit or the end of the move; 0x7e more than 10 -&gt; return 10; 0x7f: <code>F15</code>, <code>checkCrotchCutting</code>, resend <code>F10 C&lt;chn&gt; L650 S1200</code>; on stop: IFS <code>F112</code>.
+3. <code>fourInOneLoadSecondStep(chn)</code> 005f7b4c: IFS <code>F11 C&lt;chn&gt; L100 S1200</code>; poll <code>F13</code> every 200 ms until state 5; 0x7f: <code>F15</code>, <code>checkCrotchCutting</code>, resend <code>F11 ... L100 S1200</code>.
+4. IFS <code>F23 C&lt;chn&gt;</code>; <code>checkCrotchF39(chn)</code> (<code>F39 C&lt;chn&gt;</code>).
+Return 10 -&gt; dialog <code>E0114: IFS ... home error!</code> and <code>sigIFSError(.., E0114)</code>. No heating, no flush and no G-code in this path; extruder is not moved. Lane parks 100 mm back from the sensor trip point.</p>
+<p>Pause-time insert (<code>checkPauseAutoLoad</code> 005fade4, from <code>ifsPaused</code>): <code>clearAllFilament(px,py)</code>, <code>checkCrotchCutting(chn)</code>, IFS <code>F10 C&lt;chn&gt; L200 S1200</code>, poll <code>F13</code> 1 s, IFS <code>F23 C&lt;chn&gt;</code>, <code>checkCrotchF39(chn)</code>.</p>
+<h3 id="52-load-at-print-start-serialprint-006042e4-normal-start-ifs-present-multicolour">5.2 Load at print start (<code>serialPrint</code> 006042e4, normal start, IFS present, multicolour)<a class="headerlink" href="#52-load-at-print-start-serialprint-006042e4-normal-start-ifs-present-multicolour" title="Permanent link">&para;</a></h3>
+<p>Before <code>serialPrint</code>: the Print screen has set bed target (<code>setPlatformHeat</code> -&gt; G <code>M140 S&lt;t&gt;</code>) and, once the bed has arrived (<code>waitArriveTemperature(false,false,true)</code>), <code>setRightNozzleTemp</code> -&gt; G <code>M104 S&lt;job nozzle temp&gt;</code> (job temp from the G-code header scan in <code>Print::initWidget</code>: strings <code>M104</code>, <code>M109</code>, <code>M140</code>, <code>M141</code>, <code>M190</code>, <code>T0</code>; chamber target &gt; 0 delays the nozzle). <code>setRightNozzleTemp</code> sends <code>M104 S0 T0</code> instead if the nozzle sensor reads below -10 (float at 0x00aeae3c), otherwise <code>M104 S&lt;t&gt;</code>; bed likewise <code>M140 S0</code> / <code>M140 S&lt;t&gt;</code>. The per-type temperature table (section 2) is NOT used here.
+<code>serialPrint</code> start, in order:
+1. G <code>G92 E0</code>
+2. G <code>CLEAR_PAUSE</code>; G <code>SET_FAN_SPEED FAN=pcb_fan SPEED=1</code>
+3. Non-IFS or non-multicolour print: G <code>G1 Z10 F500</code>, <code>G92 E0</code>, <code>flushFilamentSecond(chn-1)</code>, <code>flushFilamentBrush(true,px,py)</code>, <code>M106 S0</code>. (Then straight to step 6.)
+4. IFS print: <code>checkPurgeOldFilament(chn-1, px, py)</code>; <code>checkPrintUnLoad(laneMask, currentLoadedChn, px, py)</code> 005f6e58: toolhead empty -&gt; proceed; else once <code>cutFilament(cur)</code>, then <code>fourInOneUnLoad(cur,false)</code> if its lane bit is set, else try <code>fourInOneUnLoad(lane,true)</code> on the other lanes with filament; if the toolhead still reads filament after all four: IFS <code>F23 C&lt;cur&gt;</code> and <code>sig_extruderSensorAbort</code> (E0113), return 0.
+5. <code>changeChannel(mode=1, firstChn, px, py)</code> (5.3 without the Z lift/return): <code>doLoadAndUnload(new=first, old=Config::getChannel, flag=1)</code>, wait for nozzle, <code>getFlushVol</code>, <code>Config::setChannel(first)</code>, <code>cleanFilamentBox</code> x passes, then <code>SET_FAN_SPEED FAN=fanM106 SPEED=&lt;this+0x228&gt;</code>, <code>M400</code>, <code>SDCARD_CLEAR_REFUELLING</code>. Then <code>operationFilament(chn,4,0,chn)</code> (UI state).
+6. G <code>M21</code>; G <code>M23 &lt;path under /usr/data/gcodes&gt;</code>; G <code>M26 S&lt;seek&gt;</code>; G <code>SDCARD_SET_CHANNEL CHANNEL=&lt;n&gt;</code>; G <code>SDCARD_ENABLE_FFM ENABLE=0|1</code>; G <code>M24</code>. <code>EXCLUDE_OBJECT NAME=&lt;n&gt;</code> lines are sent for excluded objects between M26 and M24.
+Prime/first layer: the host sends no prime line or first-layer move; it is all in the sliced file. (<code>Print::doPreparation</code>/<code>checkZ</code> is the leveling prep: <code>BED_MESH_CLEAR</code>, <code>G1 Z50 F3000</code>, <code>M106 P0 S255</code>, <code>G1 X60 Y-3 F12000</code>, <code>G1 X130 F1200</code>, <code>G1 X150 F1200</code>, <code>G1 Z5 F600/F800/F6000</code>, <code>BED_MESH_PROFILE LOAD|REMOVE=...</code>; not part of a normal print start.)</p>
+<h3 id="53-toolchange-during-print-changechannelmode0-newchn-px-py-005fe970">5.3 Toolchange during print (<code>changeChannel(mode=0, newChn, px, py)</code> 005fe970)<a class="headerlink" href="#53-toolchange-during-print-changechannelmode0-newchn-px-py-005fe970" title="Permanent link">&para;</a></h3>
+<p>Trigger: <code>refuelling</code> (+0x2e0) true while IFS multicolour print is running (serialPrint main loop, 50 ms <code>usleep</code> poll). If the previous state flag <code>local_a0 == 1</code> (a runout was already detected) <code>clearAllFilament(px,py)</code> runs first (result 1 -&gt; pause flag set, state 2). Else call straight in:
+1. G <code>M400</code>; save state (<code>this+0x134=1</code>, <code>+0x140</code>, <code>+0x138=newChn</code>; power-loss file written via <code>PowerSavingModeFile::setPowerSavingMode</code>).
+2. G <code>M114</code>; parse <code>X:</code> and <code>Y:</code> (saved); saved Z is <code>this+0x2ec</code> (from <code>gcode_position</code>).
+3. Z lift (mode 0 only): <code>z' = (z &gt; 220) ? 220 : z + 5</code> (doubles 220.0 at 0x00aeae60, 5.0 at 0x00aeae68). G <code>G1 Z&lt;z'&gt; F800</code>, G <code>M400</code>.
+4. <code>doLoadAndUnload(new, old = Config::getChannel(), px, py, flag=0)</code> 005fda70 (5.4). Returns: 1 cancelled (return 1 from changeChannel); 6 no filament available (changeChannel returns 6 -&gt; caller sets the pause flag, state 2); 9 lane substituted by autodetect (new = lane found); else continue.
+5. Wait for nozzle temperature: loop <code>sleep(1)</code> until <code>nozzle real &gt;= nozzle target</code> and <code>target &gt; 0</code> (integer compare, no tolerance, no timeout), or until the pause flag is set. The target is whatever the file/slicer already set before <code>Tn</code>; the host does not choose a temperature here (no M104/M109 in changeChannel, doLoadAndUnload, cleanFilamentBox, flushFilament*). Rule between old and new type: not applied by the host. (Searched all callers: <code>getFilamentTypeTemp</code> is called only from the end-of-print cleanup, 5.7.)
+6. <code>fanSave = this+0x224 -&gt; this+0x228</code>. <code>getFlushVol(old, new)</code> (section 4). <code>Config::setChannel(new)</code>.
+7. <code>passes = 1 + (vol &gt; 400)</code> x { <code>cleanFilamentBox(new, vol, px, py)</code> (3.10); G <code>M400</code> }.
+8. UI update (<code>printChnFilament</code>); <code>this+0xd0 = 1</code> (mode 0); clear change flag; power-loss state saved.
+9. G <code>SET_FAN_SPEED FAN=fanM106 SPEED=&lt;this+0x228&gt;</code>
+10. mode 0 only: G <code>G1 Y&lt;savedY&gt; F12000</code>, <code>M400</code>, <code>G1 X&lt;savedX&gt; F12000</code>, <code>M400</code>, <code>G1 Z&lt;savedZ&gt; F800</code>, <code>M400</code>, then <code>G92 E&lt;this+0xbc&gt;</code> if <code>this+0xbc &gt;= 0</code> else <code>G92 E0</code>.
+11. G <code>M400</code>; <code>this+0x2e0 = 0</code>; G <code>SDCARD_CLEAR_REFUELLING</code> (releases Klipper).</p>
+<h3 id="54-doloadandunloadnewchn-oldchn-x-y-flag-005fda70">5.4 <code>doLoadAndUnload(newChn, oldChn, x, y, flag)</code> 005fda70<a class="headerlink" href="#54-doloadandunloadnewchn-oldchn-x-y-flag-005fda70" title="Permanent link">&para;</a></h3>
+<p>Start: if the toolhead sensor reads filament and loaded-chn (<code>this+0x24c</code>) != newChn, or <code>flag == 0</code>: <code>cutFilament(oldChn,x,y)</code> (3.5) and treat as needing unload; else (flag 1, nothing to unload) <code>checkCrotchCutting(newChn)</code>.
+Loop until done/cancel (each iteration ends <code>sleep(1)</code>):
+- Unload phase (while unload pending):
+  - <code>checkRefullingFrist(oldChn)</code> (3.6): result 8 -&gt; IFS <code>F15</code>, <code>checkCrotchCutting(old)</code>, IFS <code>F11 C&lt;old&gt; L50 S1200</code>, sleep 1, repeat; 4 -&gt; if a second cut was already done: <code>sigIFSError(E0104+old-1)</code> (getIFSUnLoadErrorCode) + <code>checkCrotchF39(old)</code> + pause; else <code>cutFilament(old)</code> again, sleep 1; 10 -&gt; dialog <code>E0114</code> (IFS home error, channel number appended), sleep, pause path; 1 -&gt; return 1; 0 -&gt; IFS <code>F11 C&lt;old&gt; L70 S1200</code> (first time), sleep 1, then second pass with <code>checkRefulling(old)</code> (same codes, resend uses <code>checkCrotchCutting</code> instead).
+- Load phase: read the lane mask (<code>this+0x298</code>); if the new lane bit is clear: count 1 s ticks; after 11 ticks <code>autoDetectLoad(new, ...)</code> (finds another lane with the same type string and same colour string among lanes with filament, sets the slot-&gt;lane map <code>this+(slot+0x94)*4</code>, and unless suppressed runs <code>doAutoDetectLoad</code>); if none: <code>autoLoadNoFilamentPause</code> (UI), G <code>M25</code>, pause flag, return 6. If the lane has filament: IFS <code>F10 C&lt;new&gt; L1000 S1200</code> (0x4b0), <code>checkFeeding(new)</code> (3.8):
+  - 0 or 7 -&gt; done (9 if lane was substituted);
+  - 8 -&gt; IFS <code>F15</code>, <code>checkCrotchCutting(old/param)</code>, sleep 1, retry;
+  - 3 or 10 -&gt; <code>timeOutPause()</code> (user pause dialog), on resume re-select lane and retry;
+  - 1 -&gt; cancel.
+- On success G <code>M400</code> and return.
+<code>doAutoDetectLoad(chn)</code> 005fd288: <code>checkCrotchCutting(chn)</code>, IFS <code>F10 C&lt;chn&gt; L1000 S1200</code>, <code>checkFeeding(chn)</code> (3 -&gt; fail), <code>Config::setChannel(chn)</code>, <code>cleanFilamentBox(chn, 0, px, py)</code>.</p>
+<h3 id="55-runout-lane-empty-while-printing-serialprint-main-loop">5.5 Runout (lane empty while printing, <code>serialPrint</code> main loop)<a class="headerlink" href="#55-runout-lane-empty-while-printing-serialprint-main-loop" title="Permanent link">&para;</a></h3>
+<p>Each 50 ms tick: if the current slot's lane bit in <code>this+0x298</code> is clear: counter++; at 20 ticks (about 1 s): if the toolhead sensor still reads filament, compute <code>filament_used - baseline</code>; while that is &lt;= 600 mm (float at 0x00aeae40) set state 1 and keep printing (the filament left in the tube is used up); else (toolhead empty or more than 600 mm extruded): G <code>SAVE_GCODE_STATE NAME=PAUSE_state</code> (no wait), G <code>M25</code>, wait for pause, G <code>G1 Z&lt;min(z+5,220)&gt; F800</code>, <code>clearCurrentChnFilament</code>, <code>autoDetectLoad(...)</code> for a lane with the same type+colour; success: G <code>RESTORE_GCODE_STATE NAME=PAUSE_state MOVE=1 MOVE_SPEED=100</code>, <code>M400</code>, resume; failure: state 2 and the normal pause path (5.6) with <code>autoLoadNoFilamentPause</code> dialog.</p>
+<h3 id="56-pause-resume-cancel">5.6 Pause / resume / cancel<a class="headerlink" href="#56-pause-resume-cancel" title="Permanent link">&para;</a></h3>
+<p>Pause (pause flag <code>+0x8a</code>, user or runout, <code>serialPrint</code>):
+1. <code>printPause()</code>; G <code>M25</code>; G <code>SAVE_GCODE_STATE NAME=PAUSE_state</code> (no wait) (skipped if state 2).
+2. save Z (<code>this+0xb8</code>), G <code>SET_IDLE_TIMEOUT TIMEOUT=864000</code>; save nozzle and bed targets (<code>+0x15c</code>, <code>+0x160</code>), fan <code>+0x228 = +0x224</code>.
+3. wait until the Klipper <code>pause_resume.is_paused</code> state arrives (6 polls then resend M25, max 31).
+4. <code>setRightNozzleTemp(0)</code> (G <code>M104 S0</code>), G <code>M106 S255</code>, G <code>G1 Z&lt;min(z+5,220)&gt; F800</code> (if z &lt;= 220 add 5.0).
+5. <code>printClearGoPos(px,py)</code>; <code>operationFilament(chn,6,0,chn)</code>; <code>printPauseFinish</code>; G <code>SET_STEPPER_ENABLE STEPPER=extruder ENABLE=0</code>; G <code>M106 S0</code>.
+6. No IFS: wait (200 ms poll) until the pause flag clears. IFS: <code>ifsPaused()</code> 005fb334 (polls F13, lets the user insert a spool -&gt; <code>checkPauseAutoLoad</code>).
+Resume: <code>printResume()</code>; <code>resumePrintPreHeating</code> (G <code>M104 S&lt;saved&gt;</code>, <code>M140 S&lt;saved&gt;</code>); <code>sleep(3)</code>; wait <code>waitArriveTemperature(false,true,true)</code> (nozzle within -2..+5 of target, bed within -2..+5 of target; target &lt; 30 nozzle / &lt; 10 bed counts as arrived) with <code>sleep(1)</code>; G <code>SET_STEPPER_ENABLE STEPPER=extruder ENABLE=1</code>; G <code>SET_IDLE_TIMEOUT TIMEOUT=864000</code>; <code>printClearGoPos</code>; <code>flushFilamentSecond(slotChn)</code>; <code>flushFilamentBrush(false)</code>; G <code>SET_FAN_SPEED FAN=fanM106 SPEED=&lt;saved&gt;</code>; G <code>G90</code>; <code>clear_brush(py)</code>; <code>printResumeFinish</code>; if a toolchange was pending (<code>+0x2e0</code>): <code>changeChannel(0, ...)</code> first, else G <code>RESTORE_GCODE_STATE NAME=PAUSE_state MOVE=1 MOVE_SPEED=100</code>, <code>M400</code>, <code>M24</code>, poll VS state until printing again (max 31 s, resend <code>M24</code> after 6).
+<code>timeOutPause()</code> 005fb804 (used by feed/load timeouts): <code>sigTimeOutPause</code> (dialog), G <code>SET_IDLE_TIMEOUT TIMEOUT=864000</code>, <code>pausePrintDo</code> (G <code>M104 S0</code>, <code>M106 S0</code>), <code>operationFilament(chn,6)</code>, <code>printPauseFinish</code>, extruder disable, <code>ifsPaused()</code>, then resume as above (<code>sleep(3)</code>, wait temperature, <code>operationFilament(chn,4)</code>, <code>printResumeFinish</code>, extruder enable).
+Cancel: UI/<code>this+0x88</code>: G <code>CANCEL_PRINT</code>; cancel flag <code>+0x2e3</code> makes every wait above return early (F112 is sent by <code>checkFeeding</code> and <code>checkLoad</code> only in the listed branches); then the end-of-print cleanup (5.7) runs with <code>printCancel()</code>.</p>
+<h3 id="57-end-of-print-also-after-cancel">5.7 End of print (also after cancel)<a class="headerlink" href="#57-end-of-print-also-after-cancel" title="Permanent link">&para;</a></h3>
+<ol>
+<li>G <code>M400</code>; <code>M114</code> read Z; park Z ladder: <code>z&lt;=50 -&gt; 100</code>, <code>50&lt;z&lt;=100 -&gt; 150</code>, <code>100&lt;z&lt;=150 -&gt; 200</code>, else 220 (doubles at 0x00aeaea8.. 0x00aeae90); G <code>G1 Z&lt;that&gt; F800</code>; G <code>M400</code>; <code>powerSavingParamClear</code>; <code>printClearGoPos(px,py)</code>.</li>
+<li>If IFS and not error and state != 1: (a) current lane empty but toolhead reads filament: <code>printCleanAllFilament</code>, <code>setRightNozzleTemp(getFilamentTypeTemp(chn))</code> (section 2: 220/230/250), then up to 7 times { wait nozzle arrived (<code>waitArriveTemperature(false,true,false)</code> 1 s poll), <code>clearCurrentChnFilament</code>, until toolhead reads empty }; (b) lane has filament and toolhead reads filament: <code>cutFilament(chn)</code> then <code>fourInOneUnLoad(chn,false)</code>; then <code>checkCrotchF39(chn)</code>. Then <code>clearChnStatus()</code> 005e3584 (IFS <code>F23 C1</code>..<code>F23 C4</code>) and <code>operationFilament(0,0,0,0)</code>.</li>
+<li>G <code>SET_IDLE_TIMEOUT TIMEOUT=1800</code>, <code>setRightNozzleTemp(0)</code> (<code>M104 S0</code>), <code>setPlatformHeat(0)</code> (<code>M140 S0</code>), <code>initPrinterFan</code>, G <code>M220 S100</code>, <code>M400</code>, <code>G92 E0</code>, <code>BED_MESH_CLEAR</code>, <code>BED_MESH_PROFILE REMOVE=default</code>, <code>CLEAR_PAUSE</code>, <code>SDCARD_RESET_FILE</code>, <code>SET_FAN_SPEED FAN=pcb_fan SPEED=0</code>, <code>SET_GCODE_OFFSET Z=0 MOVE=1</code>, <code>G90</code>, <code>M82</code>, <code>M18</code>.</li>
+<li>Completed -&gt; <code>printCompleted()</code>, cancelled -&gt; <code>printCancel()</code>, error -&gt; G <code>CANCEL_PRINT</code> + <code>printHappendError()</code>.</li>
+</ol>
+<h3 id="58-power-loss">5.8 Power loss<a class="headerlink" href="#58-power-loss" title="Permanent link">&para;</a></h3>
+<p>State is written continuously through <code>PowerSavingModeFile</code>/<code>PrintContinueConfig</code> (fields: channel <code>+0x138</code>, change flag <code>+0x134</code>, <code>+0x140</code>, line number <code>+0xe0</code>, refuelling, clear, saved Z <code>+0xb8</code>, E <code>+0xbc</code>, targets, fan, file name). On recovery start (<code>serialPrint</code> recovery branch, strings "recovery first move x/y/z", "recovery speedCmd"):
+1. If a change was in progress (<code>+0x134</code>): <code>printClearGoPos</code>; <code>clearAllFilament</code>; <code>powerOffUnLoad(chn)</code> 005f77f0 (F13 poll, <code>fourInOneUnLoad</code> on the lane(s) in use, <code>cutFilament</code>); <code>changeChannel(1, savedNewChn, px, py)</code>.
+2. Seek in the file (<code>getRecoveryPrintSeek</code> or <code>seekNumOfRowsOfFile</code>), G <code>SET_IDLE_TIMEOUT TIMEOUT=864000</code>, <code>setPlatformHeat</code>, <code>setRightNozzleTemp</code> (saved), G <code>M106 S&lt;fan*255&gt; T0</code>, wait <code>waitArriveTemperature(false,true,true)</code> (1 s poll), <code>printClearGoPos</code>, G <code>G1 Z&lt;savedZ+10&gt; F800</code> (10.0 at 0x00aeae98), <code>M400</code>, <code>flushFilamentSecond(chn)</code>, <code>flushFilamentBrush(true)</code>, G <code>G90</code>, <code>G1 Y220 F12000</code>, G <code>G92 E&lt;savedE&gt;</code>, <code>G1 E&lt;savedE-1&gt; F1000</code>, <code>G92 E&lt;..&gt;</code>, <code>M400</code>, G <code>G1 X&lt;x&gt; Y&lt;y&gt; F6000</code>, <code>G1 Z&lt;z&gt; F900</code>, <code>M400</code>, G <code>M220 S&lt;speed&gt;</code>, G <code>M106 S&lt;fan*255&gt; T0</code>, <code>G90</code>/<code>M82|M83</code> per <code>absolute_extrude</code>, <code>M400</code>, then the normal start tail (<code>M21</code>, <code>M23</code>, <code>M26 S&lt;seek&gt;</code>, <code>SDCARD_SET_CHANNEL</code>, <code>SDCARD_ENABLE_FFM</code>, <code>M24</code>).</p>
+<hr />
+<h2 id="6-error-codes-ui-dialog-ecode-httpswikiflashforgecomenad5xerror_code_list_ad5x">6. Error codes (UI dialog <code>E&lt;code&gt;</code>, <code>https://wiki.flashforge.com/en/ad5x/error_code_list_ad5x#...</code>)<a class="headerlink" href="#6-error-codes-ui-dialog-ecode-httpswikiflashforgecomenad5xerror_code_list_ad5x" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>raised by</th>
+<th>text (wiki anchor)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E0100..E0103</td>
+<td><code>getIFSLoadErrorCode(chn)</code> from <code>checkFeeding</code> (second 30 s timeout), <code>checkLoad</code> (second 31 s timeout)</td>
+<td>channel 1..4 feeding timeout</td>
+</tr>
+<tr>
+<td>E0104..E0107</td>
+<td><code>getIFSUnLoadErrorCode(chn)</code> from <code>doLoadAndUnload</code> (second cut did not clear the toolhead)</td>
+<td>channel 1..4 retracting timeout</td>
+</tr>
+<tr>
+<td>E0108</td>
+<td><code>Filament::slot_operationError</code> (UI load wizard)</td>
+<td>failed to feed filament to the extruder</td>
+</tr>
+<tr>
+<td>E0109</td>
+<td><code>slotIFSMottorNoRunning</code> 005f369c (IFS odometer roller N not moving; stall/vibr/silk counters, <code>m_stallCount</code>)</td>
+<td>IFS odometer roller 1/2/3/4 not moving</td>
+</tr>
+<tr>
+<td>E0110</td>
+<td>only the wiki URL string found</td>
+<td>filament type mismatch (no raising code found)</td>
+</tr>
+<tr>
+<td>E0113</td>
+<td><code>sig_extruderSensorAbort</code> from <code>checkPrintUnLoad</code> and <code>checkFourInOneLoad</code></td>
+<td>filament detected in the extruder, check feeding position, clean manually or check the sensor</td>
+</tr>
+<tr>
+<td>E0114</td>
+<td><code>checkFourInOneLoad</code>, <code>doLoadAndUnload</code> (state 0x7e more than 100 times / return 10), <code>Filament::slot_ifsHomeError</code></td>
+<td>IFS homing error ("IFS home anomaly!" / "IFS home error!")</td>
+</tr>
+<tr>
+<td>E0116 / E0117</td>
+<td><code>checkResponseError</code> (Klipper messages <code>Exception in priming_handler</code> / <code>Exception in flush_handler</code>)</td>
+<td>exception in priming / flush</td>
+</tr>
+<tr>
+<td>E0001..E0011, E0017, E0118..E0123</td>
+<td><code>checkResponseError</code> (Klipper shutdown strings, TMC, MCU, heater, timer)</td>
+<td>not IFS related</td>
+</tr>
+<tr>
+<td>Shown to the user as <code>E&lt;code&gt;: &lt;text&gt;</code>; the "0x7e / 0x7f" values are internal IFS states and are never shown as such. "filament runout" has no dedicated E code: runout leads to the pause with the <code>autoLoadNoFilamentPause</code> dialog.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-spool-colour-material-data-the-host-keeps-only-what-drives-the-above">7. Spool / colour / material data the host keeps (only what drives the above)<a class="headerlink" href="#7-spool-colour-material-data-the-host-keeps-only-what-drives-the-above" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>FFMInfo</code> section of <code>Adventurer5M.json</code>: per channel 1..4 filament type string and colour string (accessors <code>Config::getFilamentType1..4</code>, <code>getFilamentColor1..4</code>; <code>getChnFilamentType/Color(chn)</code>), plus <code>FFMInfo.channel</code> (= <code>Config::getChannel</code>, the lane currently loaded, default 1, written by <code>Config::setChannel</code> after each successful change/auto-detect).</li>
+<li>Slot -&gt; lane map: <code>this+(slot+0x94)*4</code> (array at <code>this+0x250</code>, slot = tool index in the file), current slot <code>this+0x248</code>, loaded lane <code>this+0x24c</code>, used-lane mask from the job <code>this+0x294</code>, lane-has-filament mask (IFS sensors, F-status) <code>this+0x298</code>, IFS present <code>this+0x2e2</code>.</li>
+<li>Colour string drives only <code>getFlushVol</code> and <code>autoDetectLoad</code> (type and colour equality). Type string drives section 2 only. There is no spool weight or remaining-length data in these paths.</li>
+</ul>
+<hr />
+<h2 id="8-not-found-uncertain">8. Not found / uncertain<a class="headerlink" href="#8-not-found-uncertain" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Exact S values of <code>F10/F11</code> in places where the decompile hides the literal: all listed above come from the instruction-level literal dump (<code>S1200</code> = 0x4b0 everywhere except the unload <code>S600</code>/<code>S&lt;UnloadSpeed&gt;</code> and flush <code>S&lt;FristSpeed&gt;</code>).</li>
+<li>Semantics of IFS commands F15/F23/F39/F112 on the IFS side are from <a href="../IFS_MOTOR_SPEC/">IFS motor spec</a> and <a href="../stock-firmware/">Stock IFS firmware</a>, not re-derived here.</li>
+<li><code>checkRefulling*</code>/<code>checkLoad</code> poll thresholds (10/11/31/6) are read from <code>slti</code> constants; the exact branch that distinguishes the first vs second timeout in <code>checkLoad</code> was inferred from the flow (variable <code>local_64</code>), not single-stepped.</li>
+<li>Nozzle temperature policy between old and new filament on a toolchange: not in the host (no M104/M109 on that path); it comes from the sliced G-code. Where the job nozzle temp <code>Print+0xf0</code> is parsed from (<code>Print::initWidget</code> string scan) was not traced further.</li>
+<li>Fan unit of <code>this+0x224/0x228</code> (0..1 vs 0..255) not confirmed: <code>resumePrintFanControl</code> multiplies the stored float by 255 for <code>M106 S</code>, <code>changeChannel</code> writes it raw into <code>SET_FAN_SPEED SPEED=</code>, which takes 0..1.</li>
+<li><code>getFilamentTypeLoadFristSpace</code> / <code>LoadSpace</code>: no callers found.</li>
+<li>No separate "tip forming", ramming or temperature-drop step exists in the host; the only filament shaping is the cutter, <code>G1 E-5 F600</code> after the cut, then <code>G1 E-60</code> with the lane retract.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../afc-integration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: IFS in AFC">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                IFS in AFC
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../STOCK_SPEC_IFS/" class="md-footer__link md-footer__link--next" aria-label="Next: Stock IFS firmware spec">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Stock IFS firmware spec
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      OpenAD5X is a community project, not affiliated with FlashForge.
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://discord.gg/RsdkqDtfww" target="_blank" rel="noopener" title="OpenCreator Discord" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M492.5 69.8c-.2-.3-.4-.6-.8-.7-38.1-17.5-78.4-30-119.7-37.1-.4-.1-.8 0-1.1.1s-.6.4-.8.8c-5.5 9.9-10.5 20.2-14.9 30.6-44.6-6.8-89.9-6.8-134.4 0-4.5-10.5-9.5-20.7-15.1-30.6-.2-.3-.5-.6-.8-.8s-.7-.2-1.1-.2C162.5 39 122.2 51.5 84.1 69c-.3.1-.6.4-.8.7C7.1 183.5-13.8 294.6-3.6 404.2c0 .3.1.5.2.8s.3.4.5.6c44.4 32.9 94 58 146.8 74.2.4.1.8.1 1.1 0s.7-.4.9-.7c11.3-15.4 21.4-31.8 30-48.8.1-.2.2-.5.2-.8s0-.5-.1-.8-.2-.5-.4-.6-.4-.3-.7-.4c-15.8-6.1-31.2-13.4-45.9-21.9-.3-.2-.5-.4-.7-.6s-.3-.6-.3-.9 0-.6.2-.9.3-.5.6-.7c3.1-2.3 6.2-4.7 9.1-7.1.3-.2.6-.4.9-.4s.7 0 1 .1c96.2 43.9 200.4 43.9 295.5 0 .3-.1.7-.2 1-.2s.7.2.9.4c2.9 2.4 6 4.9 9.1 7.2.2.2.4.4.6.7s.2.6.2.9-.1.6-.3.9-.4.5-.6.6c-14.7 8.6-30 15.9-45.9 21.8-.2.1-.5.2-.7.4s-.3.4-.4.7-.1.5-.1.8.1.5.2.8c8.8 17 18.8 33.3 30 48.8.2.3.6.6.9.7s.8.1 1.1 0c52.9-16.2 102.6-41.3 147.1-74.2.2-.2.4-.4.5-.6s.2-.5.2-.8c12.3-126.8-20.5-236.9-86.9-334.5zm-302 267.7c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.4 59.2-52.8 59.2m195.4 0c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.2 59.2-52.8 59.2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/FlashForge-C5-Modding-Group" target="_blank" rel="noopener" title="FlashForge-C5-Modding-Group on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M216.5 362.5c-66-8-112.5-55.5-112.5-117 0-25 9-52 24-70-6.5-16.5-5.5-51.5 2-66 20-2.5 47 8 63 22.5 19-6 39-9 63.5-9s44.5 3 62.5 8.5c15.5-14 43-24.5 63-22 7 13.5 8 48.5 1.5 65.5 16 19 24.5 44.5 24.5 70.5 0 61.5-46.5 108-113.5 116.5 17 11 28.5 35 28.5 62.5v52c0 15 12.5 23.5 27.5 17.5C441 459.5 512 369 512 257 512 115.5 397 0 255.5 0S0 115.5 0 257c0 111 70.5 203 165.5 237.5 13.5 5 26.5-4 26.5-17.5v-40c-7 3-16 5-24 5-33 0-52.5-18-66.5-51.5-5.5-13.5-11.5-21.5-23-23-6-.5-8-3-8-6 0-6 10-10.5 20-10.5 14.5 0 27 9 40 27.5 10 14.5 20.5 21 33 21s20.5-4.5 32-16c8.5-8.5 15-16 21-21"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog" role="status" aria-atomic="true">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["navigation.sections","navigation.indexes","navigation.top","navigation.footer","navigation.instant","toc.follow","content.action.edit","content.code.copy","search.suggest","search.highlight","content.tooltips"],"redirect":null,"search":"../../assets/javascripts/workers/search.719e0d91.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","clipboard.error":"Could not copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d31f0ffa.min.js"></script>
+      
+    
+  </body>
+</html>
